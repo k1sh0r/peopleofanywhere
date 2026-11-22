@@ -1,0 +1,145 @@
+/* --- Invisible-guest bar (top centre) — an empty slot waiting for you ----- */
+
+.ghostbar {
+  position: fixed;
+  top: 22px;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 35;
+  padding: 8px 8px 8px 18px;
+  background: var(--ink);
+  border-left: 6px solid #dcebfa;
+  color: var(--cream);
+  font-family: var(--font-display), sans-serif;
+  white-space: nowrap;
+  box-shadow: 0 5px 0 rgba(12, 14, 22, 0.5);
+  animation: ghost-in 0.6s 0.8s both cubic-bezier(0.2, 1.3, 0.4, 1);
+}
+
+@keyframes ghost-in {
+  from {
+    opacity: 0;
+    transform: skewX(var(--skew)) translateY(-14px);
+  }
+}
+
+.ghostbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* a pane of glass catching the light — one soft glint, then rest */
+.ghostbar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(220, 235, 250, 0.14) 45%,
+    rgba(255, 255, 255, 0.34) 50%,
+    rgba(220, 235, 250, 0.14) 55%,
+    transparent 60%
+  );
+  background-size: 260% 100%;
+  background-repeat: no-repeat;
+  background-position: 100% 0;
+  mix-blend-mode: screen;
+  animation: glint 7s cubic-bezier(0.45, 0, 0.25, 1) 2.2s infinite;
+}
+
+@keyframes glint {
+  0%,
+  74% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+.ghostbar-icon {
+  width: 22px;
+  height: 30px;
+  flex: none;
+  fill: rgba(220, 235, 250, 0.08);
+  stroke: #dcebfa;
+  stroke-width: 1.8;
+  stroke-dasharray: 3 2.4;
+  filter: drop-shadow(0 0 6px rgba(200, 225, 255, 0.45));
+  animation: ghost-breathe 4.5s ease-in-out infinite;
+}
+
+@keyframes ghost-breathe {
+  50% {
+    opacity: 0.55;
+    filter: drop-shadow(0 0 2px rgba(200, 225, 255, 0.2));
+  }
+}
+
+.ghostbar-text {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.ghostbar-text b {
+  font-size: 20px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.05em;
+  color: #dcebfa;
+  text-shadow: 0 0 12px rgba(200, 225, 255, 0.35);
+}
+
+.ghostbar-text span {
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 246, 229, 0.7);
+}
+
+.ghostbar-cta {
+  margin-left: 6px;
+  font-size: 17px;
+  padding: 8px 16px;
+  animation: cta-pulse 2.4s ease-in-out infinite;
+}
+
+.ghostbar-cta .unslant {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ghostbar-cta .keycap {
+  min-width: 24px;
+  height: 22px;
+  font-size: 11px;
+  font-style: normal;
+  padding: 0 6px;
+}
+
+@keyframes cta-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 5px 0 #b36f00,
+      0 8px 0 rgba(12, 14, 22, 0.5);
+  }
+  50% {
+    box-shadow:
+      0 5px 0 #b36f00,
+      0 8px 0 rgba(12, 14, 22, 0.5),
+      0 0 0 5px rgba(255, 176, 32, 0.28);
+  }
+}
+
+@media (max-width: 900px) {
+  .ghostbar-text span {
+    display: none;
+  }
+}
+

@@ -1,0 +1,124 @@
+# LIVE CITY room server (claude.md). One Room per district shard, one City for counts + shard choice.
+# Local: npm run dev (port 8787) · deploy: npm run deploy:staging / deploy:production
+
+name = "poa-presence-dev"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+
+[vars]
+ENV_NAME = "dev"
+# local dev runs against the staging database, like the website's .env.local
+SUPABASE_URL = "https://YOUR-PROJECT.supabase.co"
+SUPABASE_PUBLISHABLE_KEY = ""
+# comma-separated; "*" in a host matches one label (https://*.netlify.app)
+ALLOWED_ORIGINS = "http://localhost:3000,http://127.0.0.1:3000"
+
+[[durable_objects.bindings]]
+name = "ROOM"
+class_name = "Room"
+
+[[durable_objects.bindings]]
+name = "CITY"
+class_name = "City"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Room", "City"]
+
+# new sockets per IP per minute (generous: a whole office can share one IP)
+[[ratelimits]]
+name = "CONNECT_LIMIT"
+namespace_id = "8201"
+  [ratelimits.simple]
+  limit = 120
+  period = 60
+
+# /assign + /city per member per minute
+[[ratelimits]]
+name = "API_LIMIT"
+namespace_id = "8211"
+  [ratelimits.simple]
+  limit = 30
+  period = 60
+
+# our own console errors only; no per-request logs, which could include the Authorization header (login token)
+[observability]
+enabled = true
+[observability.logs]
+invocation_logs = false
+
+# --- staging: previews + local dev against a deployed room server; load tests run here ---
+[env.staging]
+name = "poa-presence-staging"
+
+[env.staging.observability]
+enabled = true
+[env.staging.observability.logs]
+invocation_logs = false
+
+[env.staging.vars]
+ENV_NAME = "staging"
+# the staging database (Supabase branch "staging"), so dev-site logins are checked against it
+SUPABASE_URL = "https://YOUR-PROJECT.supabase.co"
+SUPABASE_PUBLISHABLE_KEY = ""
+ALLOWED_ORIGINS = "http://localhost:3000,https://dev.example.com"
+
+[[env.staging.durable_objects.bindings]]
+name = "ROOM"
+class_name = "Room"
+
+[[env.staging.durable_objects.bindings]]
+name = "CITY"
+class_name = "City"
+
+[[env.staging.ratelimits]]
+name = "CONNECT_LIMIT"
+namespace_id = "8202"
+  [env.staging.ratelimits.simple]
+  limit = 120
+  period = 60
+
+[[env.staging.ratelimits]]
+name = "API_LIMIT"
+namespace_id = "8212"
+  [env.staging.ratelimits.simple]
+  limit = 30
+  period = 60
+
+# --- production ---
+[env.production]
+name = "poa-presence"
+
+[env.production.observability]
+enabled = true
+[env.production.observability.logs]
+invocation_logs = false
+
+[env.production.vars]
+ENV_NAME = "production"
+SUPABASE_URL = "https://YOUR-PROJECT.supabase.co"
+# safe to publish: the same key the website ships to browsers (row-level security guards the data)
+SUPABASE_PUBLISHABLE_KEY = ""
+ALLOWED_ORIGINS = "https://example.com,https://www.example.com,https://example.netlify.app"
+
+[[env.production.durable_objects.bindings]]
+name = "ROOM"
+class_name = "Room"
+
+[[env.production.durable_objects.bindings]]
+name = "CITY"
+class_name = "City"
+
+[[env.production.ratelimits]]
+name = "CONNECT_LIMIT"
+namespace_id = "8203"
+  [env.production.ratelimits.simple]
+  limit = 120
+  period = 60
+
+[[env.production.ratelimits]]
+name = "API_LIMIT"
+namespace_id = "8213"
+  [env.production.ratelimits.simple]
+  limit = 30
+  period = 60

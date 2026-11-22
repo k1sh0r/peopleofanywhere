@@ -1,0 +1,51 @@
+.cr input:-webkit-autofill {
+  -webkit-text-fill-color: var(--cream);
+  box-shadow: inset 0 0 0 100px var(--field), inset 0 -3px 0 var(--field-line);
+  caret-color: var(--cream);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+.boot {
+  position: fixed;
+  inset: 0;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-display), sans-serif;
+}
+
+.game-root {
+  position: fixed;
+  inset: 0;
+}
+
+.game-root canvas {
+  display: block;
+}
+
+html.standalone,
+html.standalone body {
+  height: var(--app-h, 100%);
+}
+
+html.standalone .game-root {
+  bottom: auto;
+  height: var(--app-h, 100%);
+}
+

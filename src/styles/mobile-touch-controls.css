@@ -1,0 +1,115 @@
+/* --- touch controls -------------------------------------------------------- */
+
+.touch-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  touch-action: none;
+}
+
+.joy {
+  position: fixed;
+  z-index: 26;
+  width: 112px;
+  height: 112px;
+  margin: -56px 0 0 -56px;
+  border-radius: 50%;
+  background: rgba(28, 31, 43, 0.32);
+  box-shadow: inset 0 0 0 3px rgba(255, 246, 229, 0.55);
+  pointer-events: none;
+}
+
+.joy-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 52px;
+  height: 52px;
+  margin: -26px;
+  border-radius: 50%;
+  background: var(--cream);
+  box-shadow: 0 4px 0 rgba(12, 14, 22, 0.45);
+}
+
+.joy--run {
+  box-shadow: inset 0 0 0 4px var(--saffron);
+}
+
+.joy--run .joy-knob {
+  background: var(--saffron);
+}
+
+.joy-run {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  translate: -50% 0;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  color: var(--saffron);
+  text-shadow: 0 2px 0 var(--ink);
+}
+
+.touch-pause {
+  position: fixed;
+  z-index: 36;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  right: calc(env(safe-area-inset-right, 0px) + 12px);
+  width: 46px;
+  height: 42px;
+  border: 0;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 14px;
+  letter-spacing: -2px;
+  box-shadow: var(--hard);
+}
+
+.rotate-hint {
+  position: fixed;
+  z-index: 37;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 84px);
+  translate: -50% 0;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  padding: 8px 14px;
+  box-shadow: var(--hard);
+  pointer-events: none;
+  animation:
+    fade-in 0.3s ease,
+    fade-in 0.6s 4.4s ease reverse forwards;
+}
+
+.touch-tip {
+  position: fixed;
+  z-index: 27;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 246, 229, 0.75);
+  text-shadow: 0 2px 0 rgba(12, 14, 22, 0.6);
+  pointer-events: none;
+  animation:
+    fade-in 0.4s ease,
+    fade-in 0.8s 6s ease reverse forwards;
+}
+
+.touch-tip--l {
+  left: calc(env(safe-area-inset-left, 0px) + 22px);
+}
+
+.touch-tip--r {
+  right: calc(env(safe-area-inset-right, 0px) + 22px);
+  text-align: right;
+}
+

@@ -1,0 +1,326 @@
+/* --- The YOU panel: PROFILE · STATUS · INVITES -------------------------- */
+
+.you-tabs {
+  gap: 8px;
+}
+
+.you-tab {
+  border: 0;
+  cursor: var(--cur-link);
+  background: var(--ink-soft);
+  color: rgba(255, 246, 229, 0.7);
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+}
+
+.you-tab .unslant {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.you-tab:hover {
+  color: var(--cream);
+}
+
+.you-tab--on,
+.you-tab--on:hover {
+  background: var(--saffron);
+  color: var(--ink);
+  cursor: default;
+}
+
+.you-tab .keycap {
+  min-width: 18px;
+  height: 17px;
+  padding: 0 4px;
+  font-size: 10px;
+  font-style: normal;
+  border-radius: 4px;
+  box-shadow: 0 2px 0 #b9ab92;
+}
+
+.you-p-state {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--saffron);
+}
+
+.you-p-state .np-dot {
+  background: var(--saffron);
+}
+
+.you-p-state--live {
+  color: var(--open);
+}
+
+.you-p-state--live .np-dot {
+  background: var(--open);
+}
+
+.you-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 20px;
+}
+
+/* one section per row; the whole row edits it */
+.you-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 4px 12px;
+  border: 0;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.35);
+  background: var(--field);
+  color: var(--cream);
+  padding: 13px 16px;
+  text-align: left;
+  cursor: var(--cur-link);
+  transition: background 0.15s, translate 0.15s;
+}
+
+.you-row:hover,
+.you-row:focus-visible {
+  background: var(--ink-soft);
+  translate: 0 -2px;
+}
+
+.you-row .cr-label {
+  grid-column: 1 / -1;
+}
+
+.you-row-v {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--font-body), sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.you-row-v--empty {
+  color: rgba(255, 246, 229, 0.4);
+  font-style: italic;
+}
+
+.you-row-go {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 246, 229, 0.45);
+  transition: color 0.15s;
+}
+
+.you-row:hover .you-row-go,
+.you-row:focus-visible .you-row-go {
+  color: var(--saffron);
+}
+
+@media (max-width: 640px) {
+  .you-row {
+    padding: 11px 14px;
+  }
+
+  .you-tab {
+    font-size: 13px;
+    padding: 4px 10px;
+  }
+}
+
+/* the YOU panel sits in the profile panel's place (.pp), above the HUD */
+.you-pp {
+  z-index: 60;
+}
+
+.you-pp--still {
+  animation: none;
+}
+
+.you-pp .cr-title {
+  margin-top: 28px;
+}
+
+/* touch: RESUME is focused on open, but the keyboard focus nudge + stripe mean nothing without a keyboard */
+html.touch .pause-row:focus-visible {
+  transform: none;
+}
+
+html.touch .pause-row--primary:focus-visible {
+  background: var(--saffron);
+  border-left-color: var(--saffron);
+}
+
+/* the pause: the top panel (CityPulse in Intro.tsx): the update tag, then real counts */
+.pulse {
+  position: absolute;
+  top: max(22px, env(safe-area-inset-top, 0px));
+  left: 50%;
+  translate: -50% 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  font-family: var(--font-display), sans-serif;
+  pointer-events: none;
+}
+
+.wl-update + .wl-title {
+  margin-top: 16px;
+}
+
+.wl-update {
+  display: inline-block;
+  margin-top: 20px;
+  background: var(--saffron);
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.12em;
+  padding: 6px 16px;
+  box-shadow: 0 4px 0 #b36f00;
+}
+
+.pulse-bar {
+  background: var(--ink);
+  color: rgba(255, 246, 229, 0.72);
+  padding: 10px 26px;
+  box-shadow: var(--hard);
+  border-bottom: 3px solid var(--ink-soft);
+  animation: prompt-in 0.4s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+.pulse-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 24px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.pulse-stat b {
+  display: inline-block;
+  color: var(--cream);
+  font-size: 30px;
+  line-height: 1;
+  font-style: italic;
+}
+
+.pulse-stat--live b {
+  color: var(--open);
+}
+
+.pulse-stat:not(.pulse-stat--live) b {
+  margin-right: 5px;
+}
+
+.pulse-amp {
+  color: rgba(255, 246, 229, 0.45);
+  font-size: 22px;
+  line-height: 1;
+  align-self: center;
+  margin: 0 -8px;
+}
+
+@media (max-width: 560px) {
+  .pulse-amp {
+    font-size: 14px;
+    margin: 0 -5px;
+  }
+}
+
+.pulse-num {
+  animation: pulse-pop 0.35s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+
+@keyframes pulse-pop {
+  from {
+    transform: translateY(-4px);
+    opacity: 0.4;
+  }
+}
+
+.pulse-dot {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--open);
+  vertical-align: 1px;
+  animation: pulse-blink 2s ease-in-out infinite;
+}
+
+@keyframes pulse-blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (max-width: 560px), (max-height: 520px) {
+  .pulse {
+    gap: 7px;
+  }
+
+  .wl-update {
+    margin-top: 14px;
+    font-size: 14px;
+    padding: 5px 12px;
+  }
+
+  .pulse-row {
+    font-size: 12px;
+    gap: 4px 12px;
+  }
+
+  .pulse-stat b {
+    font-size: 21px;
+  }
+}
+
+/* short landscape phones: room for the modal first */
+@media (max-height: 520px) {
+  .pulse-bar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-bar,
+  .pulse-dot,
+  .pulse-num {
+    animation: none;
+  }
+}
+
+/* the modal sits below the top panel */
+.intro--paused .wl-wrap {
+  padding-top: max(96px, calc(env(safe-area-inset-top, 0px) + 80px));
+}
+
+@media (max-height: 520px) {
+  .intro--paused .wl-wrap {
+    padding-top: max(56px, calc(env(safe-area-inset-top, 0px) + 46px));
+  }
+}

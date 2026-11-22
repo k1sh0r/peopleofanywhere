@@ -1,0 +1,20 @@
+/* --- UI stacking order (nameplates live at z 0–20) ------------------------ */
+
+.hud {
+  z-index: 30;
+}
+
+.prompt,
+.tracker {
+  z-index: 40;
+}
+
+.pp,
+.select {
+  z-index: 60;
+}
+
+.intro {
+  z-index: 90;
+}
+

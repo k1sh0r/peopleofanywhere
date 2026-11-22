@@ -1,0 +1,154 @@
+'use client'
+
+import { useEffect } from 'react'
+import { useNet } from '@/city/live/useNet'
+import { useDirectory } from '@/city/people/directory'
+import { useOnboarding } from '@/profile/onboarding'
+import { useAccess } from '@/membership/gate'
+import { activeStatus, useMyStatus } from '@/profile/status'
+import { openYou } from './YouPanel'
+import { useCanSetStatus } from './StatusEditor'
+import { useGame } from '@/city/core/store'
+import { isTyping } from '@/city/player/input'
+import { APPLICATIONS_FREE } from '@/membership/applyFlags'
+
+/** What the ghost bar says in each access state (CLAUDE.md Phase 5D). */
+const GHOST_COPY = {
+  ghost: { title: 'YOU’RE INVISIBLE', line: 'Nobody in the city can see you yet.', cta: 'BECOME VISIBLE' },
+  applied: { title: 'ONE STEP LEFT', line: APPLICATIONS_FREE ? 'Send your application for review.' : 'Pay the application fee to send it for review.', cta: 'FINISH APPLYING' },
+  review: { title: 'UNDER REVIEW', line: 'You’re a ghost until a reviewer approves you.', cta: 'VIEW STATUS' },
+  rejected: { title: 'NOT APPROVED', line: APPLICATIONS_FREE ? 'A member can still invite you in.' : 'Fee refunded. A member can still invite you in.', cta: 'SEE DETAILS' },
+  visible: { title: 'APPROVED', line: 'Sign in with your email to go live.', cta: 'VIEW' },
+} as const
+
+/** Not signed in: guests, and applicants waiting from this browser (they sign in once approved). */
+const canSignIn = (s: keyof typeof GHOST_COPY) => s === 'ghost' || s === 'review'
+
+/** Bottom-right: the invisible guest's call to action, or your own status card. */
+export function YouCard() {
+  const phase = useGame((s) => s.phase)
+  const busy = useGame((s) => !!s.openId || s.searchOpen || s.statusOpen || s.connectOpen || s.invitesOpen || s.profileOpen || s.paused)
+  const tracking = useGame((s) => !!s.trackId)
+  const netStatus = useNet((s) => s.status)
+  const startCreate = useGame((s) => s.startCreate)
+  const me = useDirectory((s) => s.me)
+  const status = useAccess((s) => s.status)
+  const myStatus = activeStatus(useMyStatus((s) => s.status))
+  const canStatus = useCanSetStatus()
+  const invited = useAccess((s) => !!s.linkCode)
+  const signedIn = useDirectory((s) => !!s.userId)
+
+  const become = () => {
+    const ob = useOnboarding.getState()
+    if (useDirectory.getState().me) {
+      ob.fromProfile()
+      ob.setStep(1)
+    } else ob.setStep(0)
+    startCreate()
+  }
+
+  // returning members and applicants: straight to the sign-in screen (same as the pause menu)
+  const signIn = () => {
+    useAccess.setState({ signinNext: true })
+    startCreate()
+  }
+
+  // links from the approval email: /?signin opens the sign-in screen
+  useEffect(() => {
+    if (phase !== 'play' || signedIn) return
+    const url = new URL(window.location.href)
+    if (!url.searchParams.has('signin')) return
+    url.searchParams.delete('signin')
+    window.history.replaceState(null, '', url)
+    signIn()
+  }, [phase, signedIn])
+
+  // ghosts: V = become visible · L = sign in (not signed in only). Members' V / N / I live in the YOU panel.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const g = useGame.getState()
+      if ((e.code !== 'KeyV' && e.code !== 'KeyL') || isTyping(e) || g.phase !== 'play' || g.openId || g.searchOpen || g.statusOpen || g.connectOpen || g.invitesOpen || g.profileOpen || g.paused) return
+      if (useDirectory.getState().me) return
+      if (e.code === 'KeyV') return become()
+      if (!useDirectory.getState().userId && canSignIn(useAccess.getState().status)) signIn()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  })
+
+  if (phase !== 'play' || busy) return null
+
+  if (!me) {
+    // the tracking banner owns top-centre while you're heading to someone
+    if (tracking) return null
+    return (
+      <div className="ghostbar slant">
+        <span className="unslant ghostbar-inner">
+          <svg className="ghostbar-icon" viewBox="0 0 24 32" aria-hidden>
+            <circle cx="12" cy="8" r="5.5" />
+            <path d="M2.5 31v-7.5C2.5 18 6.8 15.5 12 15.5s9.5 2.5 9.5 8V31" />
+          </svg>
+          <span className="ghostbar-text">
+            <b>{GHOST_COPY[status].title}</b>
+            <span>{GHOST_COPY[status].line}</span>
+          </span>
+          <button className={`btn-primary slant ghostbar-cta${status === 'rejected' ? ' ghostbar-cta--quiet' : ''}`} onClick={become}>
+            <span className="unslant">
+              {status === 'ghost' && invited ? 'USE YOUR INVITE' : GHOST_COPY[status].cta} <span className="keycap">V</span>
+            </span>
+          </button>
+          {!signedIn && canSignIn(status) && (
+            <button className="btn-primary slant ghostbar-cta ghostbar-signin" onClick={signIn}>
+              <span className="unslant">
+                SIGN IN <span className="keycap">L</span>
+              </span>
+            </button>
+          )}
+        </span>
+      </div>
+    )
+  }
+
+  const live = me.status === 'approved'
+  const elsewhere = live && netStatus === 'replaced'
+  const state = elsewhere ? 'LIVE IN ANOTHER TAB' : live ? 'LIVE ON THE MAP' : me.status === 'hidden' ? 'HIDDEN' : 'PENDING APPROVAL'
+  // one compact player tag; everything about you (profile, status, invites) lives in the YOU panel it opens
+  return (
+    <button className={`you slant${live && !elsewhere ? '' : ' you--off'}`} onClick={() => openYou('profile')} aria-label={`You: ${state}. Open your profile, status and invites`}>
+      <span className="unslant you-body">
+        <span className="you-head">
+          <span className="np-dot" />
+          <span className="you-name">{me.name.toUpperCase()}</span>
+          <span className="keycap">V</span>
+        </span>
+        {!(live && !elsewhere) ? (
+          <span className="you-state">{state}</span>
+        ) : (
+          canStatus &&
+          myStatus && (
+            <span className="you-note">
+              {myStatus.emoji && <span className="you-note-e">{myStatus.emoji}</span>}
+              <span className="you-note-t">{myStatus.text}</span>
+            </span>
+          )
+        )}
+      </span>
+    </button>
+  )
+}
+
+/** Short game-style confirmation toasts. */
+export function Toast() {
+  const toast = useGame((s) => s.toast)
+  useEffect(() => {
+    if (!toast) return
+    const id = setTimeout(() => useGame.setState({ toast: null }), 4200)
+    return () => clearTimeout(id)
+  }, [toast])
+  if (!toast) return null
+  return (
+    <div className={`toast slant toast--${toast.tone}`} key={toast.id}>
+      <span className="unslant">{toast.msg}</span>
+    </div>
+  )
+}

@@ -1,0 +1,42 @@
+/* Game UI — design.md §10. Bold, tactile, slanted. No glassmorphism, no thin SaaS borders. */
+
+:root {
+  /* game cursors — see below */
+  --cur-default:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Cg%20transform%3D%22translate%282%202%29%22%3E%3Cpath%20d%3D%22M9.8%2010.4%20L9.8%2030.4%20L15.3%2025.6%20L19.1%2034.4%20L23.2%2032.6%20L19.4%2024.0%20L26.8%2023.6%20Z%22%20fill%3D%22rgba%2812%2C14%2C22%2C0.5%29%22%2F%3E%3Cpath%20d%3D%22M8.0%208.0%20L8.0%2028.0%20L13.5%2023.2%20L17.3%2032.0%20L21.4%2030.2%20L17.6%2021.6%20L25.0%2021.2%20Z%22%20fill%3D%22%23FFF6E5%22%20stroke%3D%22%231C1F2B%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")
+      10 10,
+    default;
+  --cur-link:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Cg%20transform%3D%22translate%282%202%29%22%3E%3Cpath%20d%3D%22M8%205%20L8%201%20M5%208%20L1%208%20M5.8%205.8%20L2.9%202.9%22%20stroke%3D%22%231C1F2B%22%20stroke-width%3D%224.6%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M8%205%20L8%201%20M5%208%20L1%208%20M5.8%205.8%20L2.9%202.9%22%20stroke%3D%22%23FFB020%22%20stroke-width%3D%222.2%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M9.8%2010.4%20L9.8%2030.4%20L15.3%2025.6%20L19.1%2034.4%20L23.2%2032.6%20L19.4%2024.0%20L26.8%2023.6%20Z%22%20fill%3D%22rgba%2812%2C14%2C22%2C0.5%29%22%2F%3E%3Cpath%20d%3D%22M8.0%208.0%20L8.0%2028.0%20L13.5%2023.2%20L17.3%2032.0%20L21.4%2030.2%20L17.6%2021.6%20L25.0%2021.2%20Z%22%20fill%3D%22%23FFB020%22%20stroke%3D%22%231C1F2B%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")
+      10 10,
+    pointer;
+  --cur-press:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Cg%20transform%3D%22translate%282%202%29%22%3E%3Cpath%20d%3D%22M8%205%20L8%202.8%20M5%208%20L2.8%208%20M5.8%205.8%20L4.205%204.205%22%20stroke%3D%22%231C1F2B%22%20stroke-width%3D%224.6%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M8%205%20L8%202.8%20M5%208%20L2.8%208%20M5.8%205.8%20L4.205%204.205%22%20stroke%3D%22%23FFB020%22%20stroke-width%3D%222.2%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M8.9%209.1%20L8.9%2029.1%20L14.4%2024.3%20L18.2%2033.1%20L22.3%2031.3%20L18.5%2022.7%20L25.9%2022.3%20Z%22%20fill%3D%22%23E08A00%22%20stroke%3D%22%231C1F2B%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")
+      10 10,
+    pointer;
+  --cur-text:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Cg%20transform%3D%22translate%282%202%29%22%3E%3Cpath%20d%3D%22M12%206%20H24%20M18%206%20V30%20M12%2030%20H24%22%20stroke%3D%22%23FFF6E5%22%20stroke-width%3D%225.6%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M12%206%20H24%20M18%206%20V30%20M12%2030%20H24%22%20stroke%3D%22%231C1F2B%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")
+      20 20,
+    text;
+  --cur-no:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Cg%20transform%3D%22translate%282%202%29%22%3E%3Ccircle%20cx%3D%2218%22%20cy%3D%2218%22%20r%3D%2210%22%20fill%3D%22%231C1F2B%22%20fill-opacity%3D%220.92%22%20stroke%3D%22%23FF5A36%22%20stroke-width%3D%223.2%22%2F%3E%3Cpath%20d%3D%22M11.4%2024.6%20L24.6%2011.4%22%20stroke%3D%22%23FF5A36%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")
+      20 20,
+    not-allowed;
+  --cur-wait:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Cg%20transform%3D%22translate%282%202%29%22%3E%3Cpath%20d%3D%22M9.8%2010.4%20L9.8%2030.4%20L15.3%2025.6%20L19.1%2034.4%20L23.2%2032.6%20L19.4%2024.0%20L26.8%2023.6%20Z%22%20fill%3D%22rgba%2812%2C14%2C22%2C0.5%29%22%2F%3E%3Cpath%20d%3D%22M8.0%208.0%20L8.0%2028.0%20L13.5%2023.2%20L17.3%2032.0%20L21.4%2030.2%20L17.6%2021.6%20L25.0%2021.2%20Z%22%20fill%3D%22%23FFF6E5%22%20stroke%3D%22%231C1F2B%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2221%22%20cy%3D%2230%22%20r%3D%222.1%22%20fill%3D%22%23FFF6E5%22%20stroke%3D%22%231C1F2B%22%20stroke-width%3D%221.2%22%2F%3E%3Ccircle%20cx%3D%2226%22%20cy%3D%2230%22%20r%3D%222.1%22%20fill%3D%22%23FFB020%22%20stroke%3D%22%231C1F2B%22%20stroke-width%3D%221.2%22%2F%3E%3Ccircle%20cx%3D%2231%22%20cy%3D%2230%22%20r%3D%222.1%22%20fill%3D%22%23FFF6E5%22%20stroke%3D%22%231C1F2B%22%20stroke-width%3D%221.2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")
+      10 10,
+    progress;
+  --ink: #1c1f2b;
+  --ink-soft: #2a2f40;
+  --cream: #fff6e5;
+  --saffron: #ffb020;
+  --action: #ff5a36;
+  --open: #3ddc84;
+  --skew: -8deg;
+  --hard: 0 4px 0 rgba(12, 14, 22, 0.55);
+  /* form fields: a dark well inside the ink panel, cream text, saffron underline on focus */
+  --field: #13151e;
+  --field-line: rgba(255, 246, 229, 0.16);
+  --field-hint: rgba(255, 246, 229, 0.32);
+}
+

@@ -1,0 +1,85 @@
+/* --- Approach prompt ------------------------------------------------------ */
+
+.prompt {
+  position: fixed;
+  left: 50%;
+  bottom: 96px;
+  translate: -50% 0;
+  border: 0;
+  cursor: var(--cur-link);
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-display), sans-serif;
+  padding: 12px 26px 14px 22px;
+  border-left: 6px solid var(--saffron);
+  box-shadow: 0 5px 0 rgba(12, 14, 22, 0.55);
+  animation: prompt-in 0.28s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+
+@keyframes prompt-in {
+  from {
+    opacity: 0;
+    transform: skewX(var(--skew)) translateY(12px) scale(0.92);
+  }
+}
+
+.prompt-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.prompt-open {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--open);
+}
+
+.prompt-name {
+  font-size: 30px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.05;
+}
+
+.prompt-role {
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 246, 229, 0.78);
+}
+
+.prompt-action {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--saffron);
+}
+
+.prompt-action .keycap {
+  animation: tap 1.4s ease-in-out infinite;
+}
+
+@keyframes tap {
+  0%,
+  70%,
+  100% {
+    transform: translateY(0);
+  }
+  80% {
+    transform: translateY(3px);
+    box-shadow:
+      0 1px 0 #b9ab92,
+      0 3px 0 rgba(12, 14, 22, 0.45);
+  }
+}
+

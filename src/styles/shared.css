@@ -1,0 +1,17 @@
+/* --- shared ------------------------------------------------------------- */
+
+.slant {
+  transform: skewX(var(--skew));
+}
+
+.unslant {
+  display: inline-block;
+  transform: skewX(calc(var(--skew) * -1));
+}
+
+.panel {
+  background: var(--ink);
+  box-shadow: var(--hard);
+  border-left: 6px solid var(--saffron);
+}
+

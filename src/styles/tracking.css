@@ -1,0 +1,86 @@
+/* --- Tracking banner ------------------------------------------------------ */
+
+.tracker {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  translate: -50% 0;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-display), sans-serif;
+  padding: 9px 22px;
+  border-bottom: 4px solid var(--saffron);
+  box-shadow: 0 5px 0 rgba(12, 14, 22, 0.5);
+  animation: prompt-in 0.3s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+
+.tracker--found {
+  background: var(--open);
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+.tracker-body {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.tracker-tag {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--saffron);
+}
+
+.tracker--found .tracker-tag {
+  color: var(--ink);
+}
+
+.tracker-name {
+  font-size: 24px;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.tracker-dist {
+  font-size: 22px;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--saffron);
+  min-width: 48px;
+}
+
+.tracker-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: rgba(255, 246, 229, 0.7);
+}
+
+.tracker-stop {
+  display: none;
+  pointer-events: auto;
+  border: 0;
+  background: var(--ink-soft);
+  color: var(--cream);
+  font-size: 17px;
+  min-width: 40px;
+  height: 36px;
+  margin-right: -10px;
+  cursor: var(--cur-link);
+}
+
+.touch .tracker-stop {
+  display: block;
+}
+
+.tracker-hint .keycap {
+  min-width: 26px;
+  height: 24px;
+  font-size: 11px;
+}
+

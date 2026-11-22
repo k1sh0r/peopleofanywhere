@@ -1,0 +1,32 @@
+/* --- keyboard-only hints don't belong on a phone --------------------------- */
+
+.touch .hud-keys,
+.touch .hud-hint,
+.touch .find-foot,
+.touch .pause-foot,
+.touch .find-go,
+.touch .prompt-action .keycap,
+.touch .hud-find .keycap,
+.touch .ms .keycap,
+.touch .ghostbar-cta .keycap,
+.touch .you-head .keycap,
+.touch .you-tab .keycap,
+.touch .pause-row .keycap,
+.touch .tracker-hint {
+  display: none;
+}
+
+/* "ESC" close buttons become a big ✕ */
+.touch .find-esc .keycap,
+.touch .pp-close .keycap {
+  font-size: 0;
+  min-width: 40px;
+  height: 36px;
+}
+
+.touch .find-esc .keycap::after,
+.touch .pp-close .keycap::after {
+  content: "✕";
+  font-size: 17px;
+}
+

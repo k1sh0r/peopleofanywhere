@@ -1,0 +1,60 @@
+/* --- Sound settings (pause menu) ------------------------------------------ */
+
+.snd {
+  gap: 10px;
+}
+
+.snd-row {
+  display: grid;
+  grid-template-columns: 130px 1fr 34px;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: rgba(255, 246, 229, 0.82);
+}
+
+.snd-row b {
+  text-align: right;
+  font-style: italic;
+  color: var(--saffron);
+}
+
+.snd-row input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  background: linear-gradient(
+    90deg,
+    var(--saffron) var(--fill),
+    #4a5068 var(--fill)
+  );
+  transform: skewX(var(--skew));
+  cursor: var(--cur-link);
+  outline: 0;
+}
+
+.snd-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 22px;
+  background: var(--cream);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.45);
+  border: 2px solid var(--ink);
+}
+
+.snd-row input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 20px;
+  border-radius: 0;
+  background: var(--cream);
+  border: 2px solid var(--ink);
+}
+
+.snd-mute {
+  margin-top: 4px;
+  background: transparent;
+  padding: 6px 0;
+}
+

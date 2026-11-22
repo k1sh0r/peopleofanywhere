@@ -1,0 +1,119 @@
+/* --- Nameplates (design.md §10.5) — no card, just type in the world ------- */
+
+.np-wrap {
+  pointer-events: none;
+}
+
+.np {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(-50%);
+  font-family: var(--font-display), sans-serif;
+  color: var(--cream);
+  text-align: center;
+  white-space: nowrap;
+  transition:
+    opacity 0.25s ease,
+    transform 0.3s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.np[data-lod="off"] {
+  opacity: 0;
+  transform: translateY(-40%) scale(0.85);
+}
+
+.np-name {
+  font-size: 22px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  text-shadow:
+    0 2px 0 var(--ink),
+    0 -1px 0 var(--ink),
+    2px 0 0 var(--ink),
+    -2px 0 0 var(--ink),
+    0 4px 0 rgba(12, 14, 22, 0.45);
+}
+
+.np-role {
+  margin-top: 3px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-shadow:
+    0 1px 0 var(--ink),
+    0 -1px 0 var(--ink),
+    1px 0 0 var(--ink),
+    -1px 0 0 var(--ink),
+    0 2px 4px rgba(12, 14, 22, 0.5);
+}
+
+.np-open {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 4px;
+  padding: 2px 8px;
+  background: var(--ink);
+  color: var(--open);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  transform: skewX(var(--skew));
+  box-shadow: 0 2px 0 rgba(12, 14, 22, 0.45);
+}
+
+.np-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--open);
+}
+
+.np-building {
+  margin-top: 5px;
+  padding: 2px 8px;
+  background: var(--saffron);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  transform: skewX(var(--skew));
+  box-shadow: 0 2px 0 rgba(12, 14, 22, 0.45);
+}
+
+.np-building b {
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-right: 3px;
+}
+
+.np-caret {
+  width: 0;
+  height: 0;
+  margin-top: 4px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid var(--saffron);
+  filter: drop-shadow(0 2px 0 rgba(12, 14, 22, 0.5));
+}
+
+/* distance detail: near = everything · mid = name + role · far = name only */
+.np[data-lod="mid"] .np-building,
+.np[data-lod="far"] .np-building,
+.np[data-lod="far"] .np-role,
+.np[data-lod="far"] .np-open {
+  display: none;
+}
+
+.np[data-lod="far"] .np-name {
+  font-size: 16px;
+}
+
+.np[data-lod="far"] {
+  opacity: 0.85;
+}
+

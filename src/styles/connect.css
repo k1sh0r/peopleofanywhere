@@ -1,0 +1,648 @@
+/* --- CONNECT (Phase 5G) ---------------------------------------------------- */
+
+button.cn-btn {
+  border: 0;
+  cursor: var(--cur-link);
+  font-family: var(--font-display), sans-serif;
+  font-style: italic;
+  width: 100%;
+}
+
+button.cn-btn:not(:disabled):hover {
+  transform: skewX(var(--skew)) translateY(-3px);
+}
+
+button.cn-btn:disabled {
+  opacity: 0.5;
+  cursor: var(--cur-wait);
+}
+
+.cn-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cn-fine {
+  font-family: var(--font-body), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(255, 246, 229, 0.6);
+}
+
+.cn-fine b {
+  color: var(--cream);
+}
+
+/* intent: five big chips, a mode select — not a form */
+.cn-intents {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.cn-intent {
+  justify-content: flex-start;
+  padding: 11px 14px;
+  font-size: 17px;
+  font-style: italic;
+}
+
+.cn-intent:last-child {
+  grid-column: 1 / -1;
+}
+
+.cn-intent .unslant {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cn-intent-e {
+  font-size: 20px;
+  font-style: normal;
+}
+
+/* states on the profile panel */
+.cn-state {
+  background: var(--ink-soft);
+  padding: 12px 16px;
+  font-size: 17px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  color: rgba(255, 246, 229, 0.75);
+  border-left: 5px solid var(--saffron);
+}
+
+.cn-state--match {
+  color: var(--open);
+  border-left-color: var(--open);
+}
+
+.cn-ask {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--ink-soft);
+  border-left: 6px solid var(--saffron);
+  padding: 12px 16px;
+}
+
+.cn-ask-e {
+  font-size: 34px;
+}
+
+.cn-ask b {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.05;
+}
+
+.cn-ask em {
+  font-family: var(--font-body), sans-serif;
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 246, 229, 0.6);
+}
+
+
+/* the HUD button: second to FIND, so ink, not saffron */
+.hud-connect {
+  background: var(--ink);
+  color: var(--cream);
+  box-shadow: var(--hard);
+}
+
+.hud-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  background: var(--action);
+  color: var(--cream);
+  font-style: normal;
+  font-size: 13px;
+  animation: cn-pop 0.4s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+
+@keyframes cn-pop {
+  from {
+    transform: scale(0.4);
+  }
+}
+
+/* the Connections screen */
+.cn-panel {
+  width: min(600px, calc(100vw - 80px));
+}
+
+.cn-tabs {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.cn-tabs .chip {
+  font-style: italic;
+}
+
+.cn-count {
+  margin-left: 8px;
+  padding: 0 6px;
+  font-style: normal;
+  background: rgba(255, 176, 32, 0.25);
+}
+
+.chip--on .cn-count {
+  background: rgba(28, 31, 43, 0.14);
+}
+
+.cn-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.cn-empty {
+  padding: 18px 4px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(255, 246, 229, 0.5);
+}
+
+.cn-you {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 2px solid rgba(255, 246, 229, 0.08);
+}
+
+/* CHATS: a match in the list (the whole row opens the chat) */
+.cn-chat-row {
+  position: relative;
+  width: 100%;
+  border: 0;
+  text-align: left;
+  font: inherit;
+  color: var(--cream);
+  cursor: var(--cur-link);
+  gap: 6px;
+  transition: background 0.15s;
+}
+
+.cn-chat-row:hover,
+.cn-chat-row:focus-visible {
+  background: #343a4f;
+}
+
+.cn-chat-last {
+  padding-right: 70px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--font-body), sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 246, 229, 0.62);
+}
+
+.cn-chat-last--unread {
+  color: var(--cream);
+  font-weight: 700;
+}
+
+.cn-chat-you {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--saffron);
+}
+
+.cn-chat-meta {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cn-chat-meta small {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 246, 229, 0.4);
+}
+
+.cn-unread {
+  margin-left: 10px;
+}
+
+/* a chat: the panel becomes a fixed-height thread with the composer at the bottom */
+.cn-panel--chat {
+  display: flex;
+  flex-direction: column;
+  height: min(760px, calc(100dvh - 60px));
+  overflow: hidden;
+}
+
+.ch {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  margin-top: 14px;
+}
+
+.ch-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(255, 246, 229, 0.08);
+}
+
+.ch-back {
+  min-height: 40px;
+  min-width: 44px;
+  font-size: 16px;
+  border: 0;
+  cursor: var(--cur-link);
+}
+
+.ch-who {
+  flex: 1;
+  min-width: 0;
+}
+
+.ch-who b {
+  display: block;
+  font-size: 24px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.05;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ch-who em {
+  display: block;
+  font-family: var(--font-body), sans-serif;
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 246, 229, 0.62);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ch-more {
+  border: 0;
+  min-width: 44px;
+  min-height: 40px;
+  background: var(--ink-soft);
+  color: var(--cream);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  cursor: var(--cur-link);
+  box-shadow: var(--hard);
+}
+
+.ch-more--on {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.ch-menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  background: var(--ink-soft);
+  box-shadow: var(--hard);
+  animation: prompt-in 0.2s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.ch-menu-item {
+  border: 0;
+  background: none;
+  text-align: left;
+  padding: 12px 16px;
+  font-family: var(--font-display), sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--cream);
+  cursor: var(--cur-link);
+}
+
+.ch-menu-item + .ch-menu-item {
+  border-top: 2px solid rgba(255, 246, 229, 0.06);
+}
+
+.ch-menu-item:hover,
+.ch-menu-item:focus-visible {
+  background: rgba(255, 246, 229, 0.06);
+}
+
+.ch-menu-item--bad {
+  color: var(--action);
+}
+
+.ch-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 14px 16px;
+  background: var(--ink-soft);
+  border-left: 6px solid var(--action);
+  animation: prompt-in 0.2s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.ch-confirm b {
+  font-size: 20px;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.ch-confirm p {
+  margin: 0;
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(255, 246, 229, 0.75);
+}
+
+.ch-reason {
+  font-size: 16px;
+}
+
+.ch-confirm-row {
+  display: flex;
+  gap: 10px;
+}
+
+.ch-confirm-row .pp-btn {
+  flex: 1;
+  min-height: 44px;
+  font-size: 17px;
+  border: 0;
+  cursor: var(--cur-link);
+}
+
+.ch-danger {
+  background: var(--action);
+  color: var(--cream);
+}
+
+.ch-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 2px 10px;
+}
+
+.ch-start {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 246, 229, 0.04);
+  border-left: 4px solid var(--saffron);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: rgba(255, 246, 229, 0.7);
+}
+
+.ch-start span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ch-start-e {
+  font-size: 26px;
+}
+
+.ch-empty {
+  margin: auto 0 0;
+  padding: 12px 4px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(255, 246, 229, 0.5);
+}
+
+.ch-msg {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 82%;
+}
+
+.ch-msg--me {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.ch-msg--gap {
+  margin-top: 10px;
+}
+
+.ch-bubble {
+  padding: 9px 13px;
+  background: var(--ink-soft);
+  color: var(--cream);
+  font-family: var(--font-body), sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: text;
+  box-shadow: 0 3px 0 rgba(12, 14, 22, 0.45);
+}
+
+.ch-msg--me .ch-bubble {
+  background: var(--saffron);
+  color: var(--ink);
+}
+
+.ch-bubble--pending {
+  opacity: 0.6;
+}
+
+.ch-msg--me .ch-bubble--failed {
+  background: transparent;
+  color: var(--cream);
+  box-shadow: inset 0 0 0 2px var(--action);
+}
+
+.ch-time {
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: rgba(255, 246, 229, 0.4);
+}
+
+.ch-retry {
+  margin-top: 4px;
+  border: 0;
+  background: none;
+  padding: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--action);
+  cursor: var(--cur-link);
+}
+
+.ch-load-failed {
+  align-self: center;
+  margin: auto 0;
+  font-size: 14px;
+}
+
+.ch-compose {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 2px solid rgba(255, 246, 229, 0.08);
+}
+
+.ch-input {
+  flex: 1;
+  min-width: 0;
+  field-sizing: content;
+  min-height: 48px;
+  max-height: 140px;
+  font-size: 16px;
+}
+
+.ch-send {
+  height: 48px;
+  padding: 0 20px;
+  font-size: 18px;
+  font-style: italic;
+}
+
+.ch-send:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.ch-count {
+  position: absolute;
+  right: 0;
+  top: -12px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+  color: var(--action);
+  font-variant-numeric: tabular-nums;
+}
+
+.ch-fine {
+  margin-top: 8px;
+}
+
+html.touch .ch-list {
+  touch-action: pan-y;
+}
+
+@media (max-width: 820px), (max-height: 520px) {
+  .cn-panel--chat {
+    height: calc(100dvh - env(safe-area-inset-top, 0px) - 20px);
+    max-height: none;
+  }
+
+  .ch-who b {
+    font-size: 20px;
+  }
+
+  .ch-fine {
+    display: none;
+  }
+}
+
+/* IT'S A MATCH */
+.cn-match {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cn-match .gate-chip {
+  align-self: flex-start;
+}
+
+.cn-pair {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 22px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: rgba(255, 246, 229, 0.75);
+}
+
+.cn-pair-e {
+  font-size: 40px;
+  font-style: normal;
+  animation: cn-pop 0.6s cubic-bezier(0.2, 1.8, 0.4, 1);
+}
+
+.cn-match-title {
+  font-size: clamp(34px, 5vw, 52px);
+  line-height: 0.95;
+}
+
+@media (max-width: 820px), (max-height: 520px) {
+  .cn-panel {
+    width: auto;
+  }
+
+  .cn-intents {
+    grid-template-columns: 1fr;
+  }
+
+  .cn-intent {
+    font-size: 15px;
+    padding: 9px 12px;
+  }
+
+  .cn-match-title {
+    font-size: 30px;
+  }
+
+}
+

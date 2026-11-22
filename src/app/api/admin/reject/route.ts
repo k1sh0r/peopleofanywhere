@@ -1,0 +1,21 @@
+import { getApplication, rejectAndRefund } from '@/server/applications'
+import { isAdmin, json, userFrom } from '@/server/supabaseAdmin'
+
+// REJECT + REFUND from the admin page, and RETRY REFUND for refund_failed (CLAUDE.md 5E-B).
+// ACCEPT is /api/admin/approve (it sends the "you're in" email). A rejection sends no email from us, by decision.
+
+export async function POST(req: Request) {
+  const user = await userFrom(req)
+  if (!user) return json({ error: 'signed_out' }, 401)
+  if (!(await isAdmin(user.id))) return json({ error: 'not_admin' }, 403)
+
+  const { id, reason } = (await req.json().catch(() => ({}))) as { id?: string; reason?: string }
+  if (!id) return json({ error: 'bad_request' }, 400)
+  const app = await getApplication(id)
+  if (!app) return json({ error: 'missing' }, 404)
+  if (!['paid', 'under_review', 'refund_failed'].includes(app.status)) return json({ error: 'not_reviewable', status: app.status }, 409)
+
+  const note = (reason ?? app.reason ?? '').trim()
+  const r = await rejectAndRefund(app, note, user.id)
+  return json(r, r.ok ? 200 : 502)
+}

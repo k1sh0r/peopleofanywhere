@@ -1,0 +1,612 @@
+/* =========================================================================
+   PHASE 5D — THE GATE (invite or apply)
+   ========================================================================= */
+
+.cr-panel--gate {
+  width: min(600px, calc(100vw - 80px));
+}
+
+.gate-lede {
+  margin-top: 10px;
+}
+
+.gate-lede b,
+.gate-aside b {
+  color: var(--cream);
+}
+
+.gate-aside {
+  margin-top: 8px;
+  font-size: 14px;
+  color: rgba(255, 246, 229, 0.62);
+}
+
+/* the two ways in — a mode select, not a form */
+.gate-opts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.gate-opt {
+  border: 0;
+  cursor: var(--cur-link);
+  text-align: left;
+  background: var(--ink-soft);
+  color: var(--cream);
+  padding: 14px 20px 14px 16px;
+  box-shadow: var(--hard);
+  border-left: 6px solid transparent;
+  transition:
+    transform 0.15s cubic-bezier(0.2, 1.5, 0.4, 1),
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.gate-opt--on {
+  background: #343a4f;
+  border-left-color: var(--saffron);
+  transform: skewX(var(--skew)) translateX(6px);
+}
+
+.gate-opt-body {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.gate-opt-n {
+  font-size: 30px;
+  font-weight: 800;
+  font-style: italic;
+  color: rgba(255, 246, 229, 0.22);
+  line-height: 1;
+}
+
+.gate-opt--on .gate-opt-n {
+  color: var(--saffron);
+}
+
+.gate-opt-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.gate-opt-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.gate-opt-blurb {
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: rgba(255, 246, 229, 0.72);
+}
+
+.gate-opt-go {
+  font-size: 22px;
+  color: rgba(255, 246, 229, 0.3);
+  transition:
+    color 0.15s,
+    transform 0.15s;
+}
+
+.gate-opt--on .gate-opt-go {
+  color: var(--saffron);
+  transform: translateX(3px);
+}
+
+.gate-badge {
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  padding: 3px 8px;
+  transform: skewX(var(--skew));
+}
+
+.gate-badge--invite {
+  background: var(--open);
+  color: var(--ink);
+}
+
+.gate-badge--pay {
+  background: var(--saffron);
+  color: var(--ink);
+}
+
+.gate-badge--soon {
+  background: rgba(255, 246, 229, 0.14);
+  color: rgba(255, 246, 229, 0.75);
+}
+
+/* an option that isn't open yet stays visible, clearly not clickable */
+.gate-opt--off {
+  cursor: var(--cur-no);
+  opacity: 0.62;
+  box-shadow: none;
+}
+
+.gate-opt--off .gate-opt-go {
+  visibility: hidden;
+}
+
+.gate-keys {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: rgba(255, 246, 229, 0.5);
+}
+
+/* invite code entry */
+.gate-code {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.gate-code input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: var(--field);
+  color: var(--cream);
+  font-family: var(--font-display), sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  box-shadow: inset 0 -3px 0 var(--field-line);
+  transition: box-shadow 0.15s;
+}
+
+.gate-code input:focus {
+  box-shadow: inset 0 -4px 0 var(--saffron);
+}
+
+.gate-code--ok input {
+  box-shadow: inset 0 0 0 3px var(--open);
+}
+
+.gate-code--bad input {
+  box-shadow: inset 0 0 0 3px var(--action);
+  animation: gate-shake 0.32s cubic-bezier(0.3, 0, 0.3, 1);
+}
+
+@keyframes gate-shake {
+  25% {
+    transform: translateX(-6px);
+  }
+  60% {
+    transform: translateX(5px);
+  }
+}
+
+.gate-check {
+  font-size: 20px;
+  padding: 0 22px;
+}
+
+.gate-ok {
+  margin-top: 14px;
+  animation: prompt-in 0.25s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.gate-err {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.gate-switch {
+  border: 0;
+  cursor: var(--cur-link);
+  background: none;
+  padding: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.08em;
+  color: var(--saffron);
+}
+
+/* sign-in by emailed code (CodeEntry): six slanted tiles over one real input */
+.code-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.code-tiles {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  max-width: 420px;
+  padding: 2px 6px 6px;
+  cursor: text;
+}
+
+.code-tile {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 0.82;
+  background: var(--field);
+  box-shadow:
+    inset 0 -3px 0 var(--field-line),
+    0 4px 0 rgba(0, 0, 0, 0.45);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(28px, 7vw, 40px);
+  font-weight: 800;
+  font-style: italic;
+  color: var(--cream);
+  transition:
+    box-shadow 0.12s,
+    background 0.12s,
+    translate 0.14s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+
+.code-tile--full {
+  background: var(--ink-soft);
+  box-shadow:
+    inset 0 -3px 0 rgba(255, 246, 229, 0.5),
+    0 4px 0 rgba(0, 0, 0, 0.45);
+}
+
+.code-tile--full > span {
+  animation: code-digit-in 0.16s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+
+/* the tile you're typing into */
+.code-tile--on {
+  box-shadow:
+    inset 0 -4px 0 var(--saffron),
+    0 4px 0 rgba(0, 0, 0, 0.45);
+  translate: 0 -2px; /* not transform: the tile keeps its slant */
+}
+
+.code-tile--on:not(.code-tile--full)::after {
+  content: "";
+  width: 3px;
+  height: 46%;
+  background: var(--saffron);
+  animation: code-caret 1s steps(1) infinite;
+}
+
+.code-tiles--wrong .code-tile,
+.code-tiles--error .code-tile {
+  box-shadow:
+    inset 0 -4px 0 var(--action),
+    0 4px 0 rgba(0, 0, 0, 0.45);
+}
+
+.code-tiles--checking .code-tile {
+  opacity: 0.6;
+}
+
+/* signed in: the tiles stamp green, left to right */
+.code-tiles--ok .code-tile {
+  background: var(--open);
+  color: var(--ink);
+  box-shadow: 0 4px 0 #1f8a50;
+  animation: code-stamp 0.32s cubic-bezier(0.2, 1.6, 0.4, 1) backwards;
+  animation-delay: calc(var(--i) * 45ms);
+}
+
+.code-tiles--shake0 {
+  animation: code-shake-a 0.34s cubic-bezier(0.3, 0, 0.3, 1);
+}
+
+.code-tiles--shake1 {
+  animation: code-shake-b 0.34s cubic-bezier(0.3, 0, 0.3, 1);
+}
+
+/* the real input: invisible, covering the tiles, so typing, paste and code autofill all land in it */
+.code-real {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  font-size: 16px; /* no zoom-on-focus on iPhone */
+  cursor: text;
+  user-select: text;
+}
+
+.code-status {
+  min-height: 20px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 246, 229, 0.65);
+}
+
+.code-status--checking {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.08em;
+  color: var(--saffron);
+}
+
+.code-status--ok {
+  font-family: var(--font-display), sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.08em;
+  color: var(--open);
+}
+
+.code-status--wrong,
+.code-status--error {
+  color: #ffb4a3;
+}
+
+@keyframes code-digit-in {
+  from {
+    transform: translateY(6px) scale(0.7);
+    opacity: 0;
+  }
+}
+
+@keyframes code-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes code-stamp {
+  from {
+    scale: 0.82;
+  }
+}
+
+@keyframes code-shake-a {
+  25% {
+    transform: translateX(-7px);
+  }
+  60% {
+    transform: translateX(6px);
+  }
+}
+
+@keyframes code-shake-b {
+  25% {
+    transform: translateX(-7px);
+  }
+  60% {
+    transform: translateX(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .code-tile,
+  .code-tile > span,
+  .code-tiles {
+    animation: none !important;
+    transition: none;
+  }
+
+  .code-tile--on {
+    translate: none;
+  }
+}
+
+.code-resend {
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 246, 229, 0.65);
+}
+
+.gate-switch:disabled {
+  color: rgba(255, 246, 229, 0.45);
+  cursor: default;
+}
+
+.gate-preview {
+  margin-top: 14px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: rgba(255, 246, 229, 0.38);
+}
+
+/* payment placeholder (Dodo Payments in 5E) */
+.gate-pay {
+  background: var(--ink-soft);
+  border-left: 6px solid var(--saffron);
+  padding: 14px 18px;
+  box-shadow: var(--hard);
+}
+
+.gate-pay-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gate-pay-k {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: rgba(255, 246, 229, 0.55);
+}
+
+.gate-pay-v {
+  font-size: 40px;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1;
+}
+
+.gate-pay-note {
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--saffron);
+}
+
+.gate-next {
+  list-style: none;
+  counter-reset: gn;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: rgba(255, 246, 229, 0.78);
+}
+
+.gate-next li {
+  counter-increment: gn;
+  position: relative;
+  padding-left: 34px;
+}
+
+.gate-next li::before {
+  content: counter(gn);
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  background: var(--ink-soft);
+  color: var(--saffron);
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  transform: skewX(var(--skew));
+}
+
+.gate-next b {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  color: var(--cream);
+}
+
+/* result screens */
+.gate-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  transform: skewX(var(--skew));
+}
+
+.gate-chip--open {
+  background: rgba(61, 220, 132, 0.16);
+  color: var(--open);
+}
+
+.gate-chip--wait {
+  background: rgba(255, 176, 32, 0.16);
+  color: var(--saffron);
+}
+
+.gate-chip--wait .np-dot {
+  background: var(--saffron);
+  box-shadow: 0 0 0 3px rgba(255, 176, 32, 0.25);
+}
+
+.gate-chip--bad {
+  background: rgba(255, 90, 54, 0.16);
+  color: #ffb4a3;
+}
+
+.gate-chip--bad .np-dot {
+  background: var(--action);
+  box-shadow: none;
+}
+
+.gate-note {
+  margin-top: 14px;
+  background: var(--ink-soft);
+  padding: 10px 14px;
+  box-shadow: inset 4px 0 0 rgba(255, 246, 229, 0.25);
+}
+
+.gate-note p {
+  margin-top: 4px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: italic;
+  color: rgba(255, 246, 229, 0.7);
+}
+
+.cr-summary-v--plain {
+  font-family: var(--font-body), sans-serif;
+  font-style: normal;
+  font-size: 15px;
+}
+
+.ghostbar-cta--quiet {
+  background: var(--cream);
+  box-shadow:
+    0 6px 0 #c9bfa9,
+    0 9px 0 rgba(12, 14, 22, 0.5);
+}
+
+@media (max-width: 820px), (max-height: 520px) {
+  .cr-panel--gate {
+    width: auto;
+  }
+
+  .gate-opt-title {
+    font-size: 19px;
+  }
+
+  .gate-opt-n {
+    font-size: 22px;
+  }
+
+  .gate-opt-blurb {
+    font-size: 13px;
+  }
+
+  .gate-code input {
+    font-size: 26px;
+  }
+
+  .gate-keys {
+    display: none;
+  }
+}
+

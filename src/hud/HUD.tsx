@@ -1,0 +1,89 @@
+'use client'
+
+import { useGame } from '@/city/core/store'
+import { districtInfo } from '@/city/districts/registry'
+import { ConnectHud } from './social/Connections'
+import { InvitesHud } from './membership/Invites'
+import { Missions } from './play/Missions'
+import { useClock } from '@/city/atmosphere/clock'
+import { clockText, phaseAt } from '@/city/atmosphere/daylight'
+import { CITY_NAME } from '@/config/site'
+
+function Keycap({ k, wide }: { k: string; wide?: boolean }) {
+  return <span className={`keycap${wide ? ' keycap--wide' : ''}`}>{k}</span>
+}
+
+/** In-game HUD (design.md §10.4) — minimal; the world is the hero. */
+export function HUD() {
+  const phase = useGame((s) => s.phase)
+  const landmark = useGame((s) => s.landmark)
+  const locked = useGame((s) => s.pointerLocked)
+  const talking = useGame((s) => !!s.openId || s.searchOpen || s.paused || s.connectOpen || s.invitesOpen || s.profileOpen)
+  const district = useGame((s) => s.district)
+  const info = districtInfo(district)
+  // the city's time, the same clock the light runs on
+  const hour = useClock((s) => s.hour)
+
+  if (phase !== 'play') return null
+
+  return (
+    <div className="hud">
+      <div className="hud-location">
+        <div className="slant panel">
+          <div className="unslant">
+            <div className="hud-city">{CITY_NAME.toUpperCase()}</div>
+            <div className="hud-district">{info.title}</div>
+          </div>
+        </div>
+        <div key={landmark} className="slant hud-landmark">
+          <span className="unslant">{landmark}</span>
+        </div>
+        <Missions />
+      </div>
+
+      <div className="hud-status">
+        <div className="hud-find-row">
+          <InvitesHud />
+          <ConnectHud />
+          <button className="slant hud-find" onClick={() => useGame.getState().setSearch(true)}>
+            <span className="unslant">
+              <span className="find-glass" /> FIND SOMEONE <span className="keycap">F</span>
+            </span>
+          </button>
+        </div>
+        <div className="slant hud-weather" title={`Time in ${CITY_NAME}`}>
+          <span className="unslant">
+            {phaseAt(hour) === 'night' ? '☾' : '☀'} {clockText(hour)}
+          </span>
+        </div>
+      </div>
+
+      <div className={`hud-keys${talking ? ' hud-keys--hidden' : ''}`}>
+        <div className="hud-key">
+          <Keycap k="WASD" wide /> MOVE
+        </div>
+        <div className="hud-key">
+          <Keycap k="SHIFT" wide /> RUN
+        </div>
+        <div className="hud-key">
+          <Keycap k="MOUSE" wide /> LOOK
+        </div>
+        <div className="hud-key">
+          <Keycap k="E" /> INTERACT
+        </div>
+        <div className="hud-key">
+          <Keycap k="F" /> FIND
+        </div>
+        <div className="hud-key">
+          <Keycap k="ESC" wide /> PAUSE
+        </div>
+      </div>
+
+      {!locked && !talking && (
+        <div className="hud-hint slant">
+          <span className="unslant">CLICK TO LOOK AROUND</span>
+        </div>
+      )}
+    </div>
+  )
+}

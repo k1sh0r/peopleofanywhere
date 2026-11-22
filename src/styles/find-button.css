@@ -1,0 +1,59 @@
+/* --- Find button (HUD) ---------------------------------------------------- */
+
+.hud-find {
+  pointer-events: auto;
+  border: 0;
+  cursor: var(--cur-link);
+  background: var(--saffron);
+  color: var(--ink);
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  padding: 7px 12px 7px 14px;
+  box-shadow:
+    0 4px 0 #b36f00,
+    0 6px 0 rgba(12, 14, 22, 0.45);
+  transition: transform 0.12s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+
+.hud-find:hover {
+  transform: skewX(var(--skew)) translateY(-2px);
+}
+
+.hud-find .unslant {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hud-find .keycap {
+  min-width: 26px;
+  height: 24px;
+  font-size: 12px;
+  font-style: normal;
+}
+
+.find-glass {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border: 3px solid currentColor;
+  border-radius: 50%;
+  position: relative;
+  flex: none;
+}
+
+.find-glass::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 7px;
+  background: currentColor;
+  right: -5px;
+  bottom: -6px;
+  transform: rotate(-45deg);
+  border-radius: 2px;
+}
+

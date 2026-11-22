@@ -1,0 +1,22 @@
+node_modules
+.next
+out
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+
+# local secrets
+.env*
+!.env.example
+
+# personal AI-agent skills (not project knowledge)
+.agents/
+.claude/skills/
+.kiro/
+skills-lock.json
+
+# email templates to paste into Resend and Supabase, local only
+/emails/
+
+# Supabase CLI link state, local only
+supabase/.temp/

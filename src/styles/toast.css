@@ -1,0 +1,35 @@
+/* --- Toast ---------------------------------------------------------------- */
+
+.toast {
+  position: fixed;
+  top: 92px;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 70;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 19px;
+  letter-spacing: 0.06em;
+  padding: 10px 22px;
+  box-shadow: 0 5px 0 rgba(12, 14, 22, 0.5);
+  animation: prompt-in 0.3s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+
+.toast--good {
+  background: var(--open);
+  color: var(--ink);
+}
+
+.toast--info {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.toast--bad {
+  background: var(--action);
+  color: var(--cream);
+}
+
+
+

@@ -1,0 +1,124 @@
+/* --- LIVE CITY (Phase 8A): who is really here right now ---------------------- */
+
+/* online: just a green dot before the name, no tag (the nameplate stays light) */
+.np-online-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin: 0 7px 0 0;
+  vertical-align: 0.18em;
+  border-radius: 50%;
+  background: var(--open);
+  box-shadow: 0 0 0 2px var(--ink);
+  animation: online-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes online-pulse {
+  50% {
+    transform: scale(0.6);
+  }
+}
+
+.warp-live {
+  color: var(--saffron);
+}
+
+/* profile panel: online / offline beside the PROFILE tag, same look as the nameplate's ONLINE */
+.pp-presence {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ink-soft);
+  color: var(--cream);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  padding: 3px 8px;
+  transform: skewX(var(--skew));
+  box-shadow: 0 2px 0 rgba(12, 14, 22, 0.45);
+}
+
+.pp-presence-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--open);
+  animation: online-pulse 1.6s ease-in-out infinite;
+}
+
+.pp-presence--off {
+  background: none;
+  color: rgba(255, 246, 229, 0.6);
+  box-shadow: none;
+}
+
+.pp-presence--off .pp-presence-dot {
+  background: none;
+  border: 1.5px solid currentColor;
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .np-online-dot,
+  .pp-presence-dot {
+    animation: none;
+  }
+}
+
+/* paused: you went live in another tab or on another device; this one stops behind a pause-style card */
+.elsewhere-screen {
+  z-index: 95;
+}
+
+.elsewhere-screen .pause-bar {
+  align-items: center;
+}
+
+.elsewhere-screen .pause-body {
+  gap: 18px;
+  padding-bottom: 30px;
+}
+
+.elsewhere-copy {
+  margin: 0;
+  font-family: var(--font-body), sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: rgba(255, 246, 229, 0.78);
+}
+
+.elsewhere-icon {
+  position: relative;
+  width: 30px;
+  height: 24px;
+  flex: none;
+  align-self: center;
+}
+
+.elsewhere-icon i {
+  position: absolute;
+  width: 20px;
+  height: 15px;
+  border: 2px solid var(--ink);
+  transform: skewX(var(--skew));
+}
+
+.elsewhere-icon i:first-child {
+  left: 0;
+  top: 0;
+  opacity: 0.45;
+}
+
+.elsewhere-icon i:last-child {
+  right: 0;
+  bottom: 0;
+  background: var(--ink);
+}
+
+@media (max-width: 520px) {
+  .elsewhere-screen .pause-title {
+    font-size: 26px;
+  }
+}
+

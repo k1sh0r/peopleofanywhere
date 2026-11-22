@@ -1,0 +1,20 @@
+/* --- Game cursors (menus only — the mouse is captured while you play) ----- */
+
+html {
+  cursor: var(--cur-default);
+}
+
+input,
+textarea {
+  cursor: var(--cur-text);
+}
+
+/* pressed-down state for anything clickable */
+:is(button, a[href], [role="button"]):active:not(:disabled):not(.pp-btn--off) {
+  cursor: var(--cur-press);
+}
+
+:is(button:disabled, .pp-btn--off):not(.btn-primary) {
+  cursor: var(--cur-no);
+}
+
