@@ -2,6 +2,8 @@
 
 **Walk your city. Meet the designers and builders who live in it.**
 
+![People of Anywhere: the title screen over The Shore at golden hour](docs/screenshot.png)
+
 People of Anywhere is a stylised 3D city you can walk through, where every character is a real person. Instead of
 scrolling through profiles, you explore streets, walk up to people, see what they're building, and connect.
 It runs in the browser on desktop and phones.
@@ -155,6 +157,38 @@ Rejecting a paid application refunds it automatically from the admin page.
 
 Start with the names, signs and time zone. Then rebuild one district at a time until it feels like your city.
 Using Claude Code or another agent? [`claude.md`](claude.md) is written for it.
+
+### Changing the look
+
+The city ships with one art direction: warm, sunny, stylised PBR, with an ink-and-saffron game HUD (the screenshot
+above). Nothing about it is fixed. The look lives in a handful of files, so a new style is mostly a matter of
+changing values, not rewriting the game:
+
+| Layer | Where | What to change |
+|---|---|---|
+| World colours | [`src/config/palette.ts`](src/config/palette.ts) (`PAL`) | Walls, roofs, roads, trees, sand, sea. Every building and prop reads from here. |
+| HUD colours, shadows, cursors | [`src/styles/tokens.css`](src/styles/tokens.css) and `UI` in `palette.ts` | `--ink`, `--cream`, `--saffron`, `--action`, `--open`, `--hard` (the button shadow), `--skew` (the slant). |
+| Fonts | [`src/app/layout.tsx`](src/app/layout.tsx) | The display and body fonts (`--font-display`, `--font-body`). |
+| Materials | [`src/city/render/materials.ts`](src/city/render/materials.ts) | `mat()`: default roughness and metalness, and the ground grade every surface gets. |
+| Light, sky and fog per time of day | [`src/city/atmosphere/daylight.ts`](src/city/atmosphere/daylight.ts) | Each key (night, dawn, morning, day, golden hour, dusk) is a full set of sun, sky, fog and ambient colours. |
+| Post-processing | [`src/city/atmosphere/Effects.tsx`](src/city/atmosphere/Effects.tsx), [`grade.ts`](src/city/atmosphere/grade.ts) | Bloom, tone mapping, saturation, contrast, vignette. |
+| The rules | [`design.md`](design.md) | Write the new direction down first, so every later change (and every agent) follows it. |
+
+**A worked example: the clay diorama.** Soft, toy-like and readable as any city:
+
+- **Palette:** mint `#9ED9C3`, peach `#F6B89A`, sky `#A9CBEF`, butter `#F7E3A1`, cream `#FFF8EE`, charcoal
+  `#2B2D33`, and one coral accent `#FF7A59` for primary actions. Map the wall tones in `PAL` onto the pastels and
+  pull the road and roof colours toward lighter, chalkier versions.
+- **Materials:** matte clay. Raise the default roughness in `mat()` to about 0.95, keep metalness at 0, and drop
+  surface noise and stripe textures for flat colour with soft ambient occlusion.
+- **Light:** a high, soft sun, a brighter ambient and short pale shadows. Lower the contrast in the grade, add a
+  little saturation, and add a gentle tilt-shift (depth of field) in `Effects.tsx` so the street reads as a model.
+- **HUD:** cream panels with charcoal text instead of ink with cream, pill-shaped buttons (`--skew: 0deg`, large
+  border radius), a soft drop shadow instead of `--hard`, and a rounded heavy sans such as Nunito or Fredoka.
+
+Change one layer at a time and look at it in the game (`?time=10:00` or `?time=17:30` freezes the clock) before
+moving on. Characters are GLB models, so if the new style needs different characters, swap the files listed in
+[`src/city/avatars/roster.ts`](src/city/avatars/roster.ts).
 
 ## Pausing the city (waitlist)
 
