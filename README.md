@@ -4,6 +4,16 @@
 
 ![People of Anywhere: the title screen over The Shore at golden hour](docs/screenshot.png)
 
+---
+
+# ❤️ Support the original project
+
+## This is a city-agnostic copy of [**People of City**](https://github.com/peopleofcity/peopleofcity).
+
+## If you like it, go and ⭐ star, follow and contribute to [github.com/peopleofcity/peopleofcity](https://github.com/peopleofcity/peopleofcity).
+
+---
+
 People of Anywhere is a stylised 3D city you can walk through, where every character is a real person. Instead of
 scrolling through profiles, you explore streets, walk up to people, see what they're building, and connect.
 It runs in the browser on desktop and phones.
